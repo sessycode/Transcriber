@@ -5,7 +5,7 @@ This program transcribes .mp4 or .mp3 files to .srt subtitle files, which can th
 
 Usage
 ```
-python main.py
+python transcriber.py
 ```
 
 
