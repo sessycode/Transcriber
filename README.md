@@ -1,6 +1,6 @@
 # Transcriber
 
-This program transcribes .mp4 or .mp3 files to .srt subtitle files, which can then be imported directly to video editing software directly. 
+This program transcribes .mp4 or .mp3 files to .srt subtitle files, which can then be imported to video editing softwares directly. 
 
 
 Usage
