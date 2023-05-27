@@ -3,7 +3,7 @@ from moviepy.editor import *
 from datetime import timedelta
 
 
-# ask for  input
+# ask for input
 standardPrompt = "Please input filename, or type \"--help\" to see additional options"
 helpPrompt = "usage: <filename> [option] "\
              "this place is reserved for future uses"
