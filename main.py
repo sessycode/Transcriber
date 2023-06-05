@@ -1,6 +1,7 @@
 import whisper
-from moviepy.editor import *
+from moviepy.editor import VideoFileClip
 from datetime import timedelta
+import os
 
 
 # ask for input
@@ -27,12 +28,12 @@ while loopFlag:
         if filename[-4:] == ".mp3" or filename[-4:] == ".mp4":
             loopFlag = False
         else:   # loop
-            print("Invalid filename! " + standardPrompt)
+            print(f"Invalid filename! {standardPrompt}")
             inp = input(">")
 
 # convert mp4 to mp3
 if filename[-4:] == ".mp4":
-    print("converting " + filename + " into a mp3 file")
+    print(f"converting {filename} into a mp3 file")
     video = VideoFileClip(filename)
     video.audio.write_audiofile(str(filename[:-4])+".mp3")
 
@@ -40,7 +41,7 @@ model = whisper.load_model("base")
 print("Whisper model loaded.")
 result = model.transcribe(filename)
 
-transcriptTextfileName = filename[:-4] + "_transcript" + ".srt"
+transcriptTextfileName = f"{filename[:-4]}_transcript.srt"
 
 # delete file with the same transcript name
 if os.path.exists(transcriptTextfileName):
@@ -49,14 +50,14 @@ if os.path.exists(transcriptTextfileName):
 # separate each segments and write to a .srt file
 srtSegment = []
 for eachSegment in result["segments"]:
-    startTime = "0" + str(timedelta(seconds=int(eachSegment["start"]))) + ",000"
-    endTime = "0" + str(timedelta(seconds=int(eachSegment["end"]))) + ",000"
+    startTime = f"0{str(timedelta(seconds=int(eachSegment['start'])))},000"
+    endTime = f"0{str(timedelta(seconds=int(eachSegment['end'])))},000"
     text = eachSegment["text"]
     id = eachSegment["id"] + 1
-    srtSegment.append(f"{id}\n{startTime} --> {endTime}\n{text[1:] if text[0] is ' ' else text}\n\n")
+    srtSegment.append(f"{id}\n{startTime} --> {endTime}\n{text[1:] if text[0] == ' ' else text}\n\n")
 with open(transcriptTextfileName, "a") as textFile:
     for eachSrtSegment in srtSegment:
         textFile.write(eachSrtSegment)
 
 
-print("Done, your transcript is saved as " + transcriptTextfileName)
+print(f"Done, your transcript is saved as {transcriptTextfileName}")
